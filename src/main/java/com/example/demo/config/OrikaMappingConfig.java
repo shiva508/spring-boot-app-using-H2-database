@@ -11,14 +11,16 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 @Configuration
 public class OrikaMappingConfig {
-@Bean
+	@Bean
 	public MapperFacade formDomainMapperFacade() {
-		MapperFactory formDomineMapperFactory = new DefaultMapperFactory
-				.Builder()
-				.mapNulls(false)
-				.build();
-		
-		FormDomainMapper formDomainMapper=new FormDomainMapper(formDomineMapperFactory);
-	return formDomineMapperFactory.getMapperFacade(); 
+		MapperFactory formDomineMapperFactory = new DefaultMapperFactory.Builder().mapNulls(false).build();
+		FormDomainMapper formDomainMapper = new FormDomainMapper(formDomineMapperFactory);
+		return formDomineMapperFactory.getMapperFacade();
 	}
+	/*
+	 * public MapperFacade modelDomainMapperFacade() { MapperFactory
+	 * modelDomainFactory=new DefaultMapperFactory.Builder().build();
+	 * 
+	 * }
+	 */
 }

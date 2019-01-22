@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.bean.BeanTest1;
+import com.example.demo.exception.StudentErrorResponse;
+import com.example.demo.exception.StutentNotFoundException;
 import com.example.demo.model.Employee;
 import com.example.demo.model.Role;
 import com.example.demo.model.Student;
@@ -35,6 +38,8 @@ import com.example.demo.repository.UserJdbcRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.StudentService;
 import com.jfilter.filter.FieldFilterSetting;
+
+import net.bytebuddy.implementation.bytecode.Throw;
 
 @RestController
 public class StudentController {
@@ -108,6 +113,9 @@ public class StudentController {
 	/*http://localhost:8089/getStudentById1/2*/	
 	public List<Student> getAllStudentsByID1(@PathVariable("id")int id){
 		List<Student> all=service.getAllStudentsByID(id);
+		if(all.size()<=0 ||id<=0) {
+			throw new StutentNotFoundException("Sutudent is not found with id :"+id);
+		}
 		return all;
 	}
 	@GetMapping(value="/getMaxid")
@@ -136,5 +144,12 @@ public class StudentController {
 		return new ResponseEntity<Object>(benatest.getName(name), HttpStatus.OK);
 	
 	}
-	
+	@ExceptionHandler
+	public ResponseEntity<StudentErrorResponse> studentNotFound(StutentNotFoundException exe){
+		StudentErrorResponse res=new StudentErrorResponse();
+		res.setStatus(HttpStatus.NOT_FOUND.value());
+		res.setTimestamp(System.currentTimeMillis());
+		res.setMessage(exe.getMessage());
+		return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
+	}
 }
