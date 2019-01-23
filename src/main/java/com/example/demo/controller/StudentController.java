@@ -144,12 +144,5 @@ public class StudentController {
 		return new ResponseEntity<Object>(benatest.getName(name), HttpStatus.OK);
 	
 	}
-	@ExceptionHandler
-	public ResponseEntity<StudentErrorResponse> studentNotFound(StutentNotFoundException exe){
-		StudentErrorResponse res=new StudentErrorResponse();
-		res.setStatus(HttpStatus.NOT_FOUND.value());
-		res.setTimestamp(System.currentTimeMillis());
-		res.setMessage(exe.getMessage());
-		return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
-	}
+	
 }
