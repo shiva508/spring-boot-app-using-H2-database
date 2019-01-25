@@ -3,12 +3,15 @@ package com.example.demo.config;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+import javax.sql.PooledConnection;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+
+import com.zaxxer.hikari.pool.HikariPool;
 
 public class JPAConfiguration {
 	@Bean
@@ -18,6 +21,7 @@ public class JPAConfiguration {
 		dataSource.setUrl("");
 		dataSource.setUsername("");
 		dataSource.setPassword("");
+	
 		return dataSource;
 	}
 

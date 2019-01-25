@@ -4,7 +4,7 @@ import java.security.Principal;
 
 import java.util.Enumeration;
 import java.util.List;
-
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +34,7 @@ import com.example.demo.modelElementCollection.Customer;
 import com.example.demo.modelElementCollection.CustomerRepository;
 import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.RoleRepository;
+import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserJdbcRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.StudentService;
@@ -59,6 +60,8 @@ public class StudentController {
 	UserJdbcRepository userJdbcRepository;
 	@Autowired
 	CustomerRepository customerRepository;
+	@Autowired
+	StudentRepository studentRepository;  
 	
 	@RequestMapping(value="/getaaluserjdbc",method=RequestMethod.GET)
 	public List<UserJdbc>  getUserJdbc(){
@@ -112,6 +115,14 @@ public class StudentController {
 	@GetMapping(value="/getStudentById1/{id}")
 	/*http://localhost:8089/getStudentById1/2*/	
 	public List<Student> getAllStudentsByID1(@PathVariable("id")int id){
+		Long idLong=Long.valueOf(id);
+		Optional<Student> studentOptional=studentRepository.findById(idLong);
+		if(!studentOptional.isPresent()) {
+			throw new StutentNotFoundException("Sutudent is not found with id :"+id);
+		}
+		else {
+			studentOptional.get();
+		}
 		List<Student> all=service.getAllStudentsByID(id);
 		if(all.size()<=0 ||id<=0) {
 			throw new StutentNotFoundException("Sutudent is not found with id :"+id);
