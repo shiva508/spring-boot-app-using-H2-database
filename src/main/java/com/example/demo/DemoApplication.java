@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -49,6 +50,8 @@ import com.example.demo.model.RoleJdbc;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.onetomany.RoleR;
+import com.example.demo.model.onetomany.UserR;
 import com.example.demo.modelElementCollection.Customer;
 import com.example.demo.modelElementCollection.CustomerRepository;
 import com.example.demo.modelElementCollectionEmbeddable.CustomerOne;
@@ -62,9 +65,11 @@ import com.example.demo.repository.ProfessorPhoneAccessType;
 import com.example.demo.repository.ProfessorPhoneAccessTypeRepository;
 import com.example.demo.repository.ProfessorRepository;
 import com.example.demo.repository.RoleJdbcRepository;
+import com.example.demo.repository.RoleRRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserJdbcRepository;
+import com.example.demo.repository.UserRRepository;
 import com.example.demo.repository.UserRepository;
 import com.jfilter.EnableJsonFilter;
 
@@ -131,6 +136,10 @@ public class DemoApplication implements CommandLineRunner {
 	CustomerRepository customerRepository;
 	@Autowired
 	CustomerOneRepository customerOneRepository;
+	@Autowired
+	UserRRepository userRRepository;
+	@Autowired
+	RoleRRepository roleRRepository;
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
@@ -256,7 +265,14 @@ public class DemoApplication implements CommandLineRunner {
 		customerOne.setPhoneNumbers(Arrays.asList(one, one2));
 		customerOneRepository.save(customerOne);
 		logger.info("{}", customerOneRepository.findAll());
-
+		RoleR r=null;
+		Optional<RoleR> optional =roleRRepository.findById(2);
+		System.out.println(optional.isPresent());
+		/*
+		 * if(optional.isPresent()) { r=optional.get(); UserR userR=new UserR();
+		 * userR.setLogin("dasarishiva1@gmail.com"); userR.setPassword("sniper508");
+		 * userR.setRoler(r); logger.info("USERR SAVED", userRRepository.save(userR)); }
+		 */
 	}
 
 }
