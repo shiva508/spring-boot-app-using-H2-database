@@ -90,7 +90,7 @@ public class DemoApplication implements CommandLineRunner {
 	UserRepository userRepository;
 	@Autowired
 	RoleRepository roleRepository;
-	@Autowired
+	@Autowired//uyhsadfasydfyA
 	ProfessorPhoneAccessTypeRepository professorPhoneAccessTypeRepository;
 	@Autowired
 	EmployeeRepository employeeRepository;
