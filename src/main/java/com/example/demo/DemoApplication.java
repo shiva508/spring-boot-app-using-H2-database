@@ -50,6 +50,7 @@ import com.example.demo.model.RoleJdbc;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.naturalid.Product;
 import com.example.demo.model.onetomany.RoleR;
 import com.example.demo.model.onetomany.UserR;
 import com.example.demo.modelElementCollection.Customer;
@@ -71,6 +72,7 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserJdbcRepository;
 import com.example.demo.repository.UserRRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.naturalid.ProductRepository;
 import com.jfilter.EnableJsonFilter;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -140,7 +142,8 @@ public class DemoApplication implements CommandLineRunner {
 	UserRRepository userRRepository;
 	@Autowired
 	RoleRRepository roleRRepository;
-
+	@Autowired
+	ProductRepository productRepository; 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -273,6 +276,15 @@ public class DemoApplication implements CommandLineRunner {
 		 * userR.setLogin("dasarishiva1@gmail.com"); userR.setPassword("sniper508");
 		 * userR.setRoler(r); logger.info("USERR SAVED", userRRepository.save(userR)); }
 		 */
+		Product product=new Product();
+		product.setCode("A-1");
+		product.setProductName("INFINITY LAP");
+		productRepository.save(product);
+		Product product1=new Product();
+		product1.setCode("A-2");
+		product1.setProductName("INFINITY LAP");
+		productRepository.save(product1);
+		logger.info("Product"+productRepository.getProductByCode("A-2"));
 	}
 
 }

@@ -14,6 +14,8 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.core.annotation.AliasFor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @ComponentScan(excludeFilters = {
@@ -22,7 +24,6 @@ import org.springframework.core.annotation.AliasFor;
 public @interface AccessRole {
 	@AliasFor("accessType")
 	String value() default "visitor";
-	
 	@AliasFor("value")
 	String accessType() default "visitor";
 	
