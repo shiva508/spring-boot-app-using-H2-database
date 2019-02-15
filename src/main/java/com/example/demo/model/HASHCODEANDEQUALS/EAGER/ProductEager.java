@@ -36,12 +36,12 @@ public class ProductEager {
 			)
 	private Company company;
 	@OneToMany(
-			fetch=FetchType.LAZY,
+			fetch=FetchType.EAGER,
 			cascade=CascadeType.ALL,
 			mappedBy="productEager",
 			orphanRemoval=true
 			)
-	@OrderBy("index")
+	@OrderBy("ID")
 	private Set<Image> images=new LinkedHashSet<Image>();
 	public ProductEager() {
 		super();

@@ -78,6 +78,7 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.EAGER.ProductEagerRepository;
 import com.example.demo.repository.naturalid.ProductRepository;
+import com.example.demo.service.HASHCODEANDEQUALS.ProductEagerService;
 import com.jfilter.EnableJsonFilter;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -153,6 +154,8 @@ public class DemoApplication implements CommandLineRunner {
 	CompanyRepository companyRepository;
 	@Autowired
 	ProductEagerRepository productEagerRepository;
+	@Autowired
+	ProductEagerService productEagerService;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -314,8 +317,8 @@ public class DemoApplication implements CommandLineRunner {
 		productEager.setImages(imageSet);
 		productEager.setCompany(companyRepository.save(company));
 		
-		System.out.println(productEagerRepository.save(productEager));
-		/* logger.info("++++++++++++++++++"+productEagerRepository.findAll()); */
+		System.out.println(productEagerRepository.saveAndFlush(productEager));
+		logger.info("++++++++++++++++++"+productEagerService.getAllProductEager()); 
 	}
 
 }
