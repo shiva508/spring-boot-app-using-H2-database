@@ -51,6 +51,8 @@ import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
 import com.example.demo.model.HASHCODEANDEQUALS.Company;
+import com.example.demo.model.HASHCODEANDEQUALS.EAGER.Image;
+import com.example.demo.model.HASHCODEANDEQUALS.EAGER.ProductEager;
 import com.example.demo.model.naturalid.Product;
 import com.example.demo.model.onetomany.RoleR;
 import com.example.demo.model.onetomany.UserR;
@@ -74,6 +76,7 @@ import com.example.demo.repository.UserJdbcRepository;
 import com.example.demo.repository.UserRRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
+import com.example.demo.repository.HASHCODEANDEQUALS.EAGER.ProductEagerRepository;
 import com.example.demo.repository.naturalid.ProductRepository;
 import com.jfilter.EnableJsonFilter;
 
@@ -148,6 +151,8 @@ public class DemoApplication implements CommandLineRunner {
 	ProductRepository productRepository;
 	@Autowired
 	CompanyRepository companyRepository;
+	@Autowired
+	ProductEagerRepository productEagerRepository;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -293,9 +298,24 @@ public class DemoApplication implements CommandLineRunner {
 		company.setName("INFINITY");
 		Company company1=new Company();
 		company1.setName("INFINITY1");
-		System.out.println(companyRepository.save(company));
-		System.out.println(companyRepository.save(company1));
+		/*System.out.println(companyRepository.save(company));
+		System.out.println(companyRepository.save(company1));*/
+		ProductEager productEager=new ProductEager(); 
+		Image images=new Image();
+		images.setName("JPEG");
+		images.setProductEager(productEager);
+		Image images1=new Image();
+		images1.setName("JPEG");
+		images1.setProductEager(productEager);
+		Set<Image> imageSet=new LinkedHashSet<Image>();
+		imageSet.add(images);
+		imageSet.add(images1);
+		productEager.setCode("408");
+		productEager.setImages(imageSet);
+		productEager.setCompany(companyRepository.save(company));
 		
+		System.out.println(productEagerRepository.save(productEager));
+		/* logger.info("++++++++++++++++++"+productEagerRepository.findAll()); */
 	}
 
 }
