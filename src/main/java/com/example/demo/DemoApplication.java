@@ -50,6 +50,7 @@ import com.example.demo.model.RoleJdbc;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.HASHCODEANDEQUALS.Company;
 import com.example.demo.model.naturalid.Product;
 import com.example.demo.model.onetomany.RoleR;
 import com.example.demo.model.onetomany.UserR;
@@ -72,6 +73,7 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserJdbcRepository;
 import com.example.demo.repository.UserRRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
 import com.example.demo.repository.naturalid.ProductRepository;
 import com.jfilter.EnableJsonFilter;
 
@@ -143,7 +145,9 @@ public class DemoApplication implements CommandLineRunner {
 	@Autowired
 	RoleRRepository roleRRepository;
 	@Autowired
-	ProductRepository productRepository; 
+	ProductRepository productRepository;
+	@Autowired
+	CompanyRepository companyRepository;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -285,6 +289,13 @@ public class DemoApplication implements CommandLineRunner {
 		product1.setProductName("INFINITY LAP");
 		productRepository.save(product1);
 		logger.info("Product"+productRepository.getProductByCode("A-2"));
+		Company company=new Company();
+		company.setName("INFINITY");
+		Company company1=new Company();
+		company1.setName("INFINITY1");
+		System.out.println(companyRepository.save(company));
+		System.out.println(companyRepository.save(company1));
+		
 	}
 
 }
