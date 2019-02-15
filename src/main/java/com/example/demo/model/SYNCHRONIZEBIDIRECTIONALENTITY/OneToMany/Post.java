@@ -18,6 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.ManyToMany.Tag;
 import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToOne.PostDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -52,6 +55,7 @@ public class Post {
 	joinColumns= @JoinColumn(name="POST_ID"),
 			inverseJoinColumns=@JoinColumn(name="TAG_ID"))
 	@JsonManagedReference
+	@Fetch(FetchMode.SELECT)
 	private Set<Tag> tags=new LinkedHashSet<Tag>();
 	public Post() {
 		super();
