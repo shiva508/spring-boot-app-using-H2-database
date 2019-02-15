@@ -30,6 +30,7 @@ import com.example.demo.model.Role;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToMany.Post;
 import com.example.demo.modelElementCollection.Customer;
 import com.example.demo.modelElementCollection.CustomerRepository;
 import com.example.demo.repository.EmployeeRepository;
@@ -38,6 +39,7 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserJdbcRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.StudentService;
+import com.example.demo.service.SYNCHRONIZEBIDIRECTIONALENTITY.PostService;
 import com.jfilter.filter.FieldFilterSetting;
 
 import net.bytebuddy.implementation.bytecode.Throw;
@@ -62,7 +64,8 @@ public class StudentController {
 	CustomerRepository customerRepository;
 	@Autowired
 	StudentRepository studentRepository;  
-	
+	@Autowired
+	PostService postService;
 	@RequestMapping(value="/getaaluserjdbc",method=RequestMethod.GET)
 	public List<UserJdbc>  getUserJdbc(){
 		return userJdbcRepository.findAll();
@@ -155,5 +158,8 @@ public class StudentController {
 		return new ResponseEntity<Object>(benatest.getName(name), HttpStatus.OK);
 	
 	}
-	
+	@GetMapping("posts")
+	public List<Post> getAllPosts(){
+		return postService.getAllPosts();
+	}
 }

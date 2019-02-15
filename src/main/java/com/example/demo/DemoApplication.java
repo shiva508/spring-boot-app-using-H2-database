@@ -53,6 +53,10 @@ import com.example.demo.model.UserJdbc;
 import com.example.demo.model.HASHCODEANDEQUALS.Company;
 import com.example.demo.model.HASHCODEANDEQUALS.EAGER.Image;
 import com.example.demo.model.HASHCODEANDEQUALS.EAGER.ProductEager;
+import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.ManyToMany.Tag;
+import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToMany.Post;
+import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToMany.PostComment;
+import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToOne.PostDetails;
 import com.example.demo.model.naturalid.Product;
 import com.example.demo.model.onetomany.RoleR;
 import com.example.demo.model.onetomany.UserR;
@@ -77,8 +81,10 @@ import com.example.demo.repository.UserRRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.EAGER.ProductEagerRepository;
+import com.example.demo.repository.SYNCHRONIZEBIDIRECTIONALENTITY.PostRepository;
 import com.example.demo.repository.naturalid.ProductRepository;
 import com.example.demo.service.HASHCODEANDEQUALS.ProductEagerService;
+import com.example.demo.service.SYNCHRONIZEBIDIRECTIONALENTITY.PostService;
 import com.jfilter.EnableJsonFilter;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -156,6 +162,10 @@ public class DemoApplication implements CommandLineRunner {
 	ProductEagerRepository productEagerRepository;
 	@Autowired
 	ProductEagerService productEagerService;
+	@Autowired
+	PostRepository postRepository;
+	@Autowired
+	PostService postService;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -318,7 +328,62 @@ public class DemoApplication implements CommandLineRunner {
 		productEager.setCompany(companyRepository.save(company));
 		
 		System.out.println(productEagerRepository.saveAndFlush(productEager));
-		logger.info("++++++++++++++++++"+productEagerService.getAllProductEager()); 
+		logger.info("++++++++++++++++++"+productEagerService.getAllProductEager());
+		Post postY=new Post();
+		postY.setTitle("WE WLL CHANGE THE WORLD");
+		Post post=new Post();
+		PostComment postComment=new PostComment();
+		postComment.setPost(post);
+		postComment.setReview("INFINITY SYSTEMS NEED TO IMPROVE ALOT");
+		PostComment postComment1=new PostComment();
+		postComment1.setPost(post);
+		postComment1.setReview("INFINITY SYSTEMS YOU ARE AWESOME");
+		post.setPostComments(Arrays.asList(postComment,postComment1));
+		post.setTitle("UnknownUser");
+		PostDetails postDetails=new PostDetails();
+		postDetails.setCreatedBy("SHIVA");
+		postDetails.setCreateddate(new java.util.Date());
+		post.setPostDetails(postDetails);
+		/* Set<Post> posts=new LinkedHashSet<Post>(); */
+		Tag tag1=new Tag();
+		tag1.setName("Shiva");
+		/* tag1.setPosts(posts); */
+		Tag tag=new Tag();
+		tag.setName("SATISH");
+		
+		/*
+		 * posts.add(post); posts.add(postY);
+		 */
+		/* tag.setPosts(posts); */
+		/* Set<Tag> tags=new LinkedHashSet<Tag>(); */
+		/*
+		 * tags.add(tag); tags.add(tag1);
+		 */
+		/*
+		 * post.setTags(tags); postY.setTags(tags);
+		 */
+		post.addTag(tag);
+		post.addTag(tag1);
+		postY.addTag(tag1);
+		/*
+		 * postService.savePost(post); postService.savePost(postY);
+		 */
+		
+		  postRepository.save(post);
+		  postRepository.save(postY);
+		
+		/*
+		 * Optional<Post> optionalOut=postService.getPost(1L); Post
+		 * post1=postService.getPostById(1L); if(post1 !=null) {
+		 * System.out.println("==================================="); PostComment
+		 * comment=post1.getPostComments().get(0); post1.removeComment(comment);
+		 * System.out.println(post1.getPostComments().get(0)); }
+		 * if(optionalOut.isPresent()) { Post savedPost=optionalOut.get(); PostComment
+		 * comment=savedPost.getPostComments().get(0);
+		 * System.out.println(":dfhshdahfas"); savedPost.removeComment(comment); }
+		 */
+		System.out.println(postService.getAllPosts());
+		 
 	}
 
 }
