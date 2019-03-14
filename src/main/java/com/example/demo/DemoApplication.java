@@ -1,21 +1,16 @@
 package com.example.demo;
 
 import java.sql.Date;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +23,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.example.demo.dependancyInjection.BinarySearchImpl;
-import com.example.demo.dependancyInjection.BubbleSortAlgorithm;
-import com.example.demo.dependancyInjection.QuickSortAlgorithm;
 import com.example.demo.dependancyInjectionBeansAutoWiring.ServiceBeanByName;
 import com.example.demo.dependancyInjectionBeansAutoWiring.ServiceBeanByType;
 import com.example.demo.dependancyInjectionBeansAutoWiring.ServiceBeanNo;
@@ -50,16 +43,17 @@ import com.example.demo.model.RoleJdbc;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.EXTRALAZYCOLLECTIONS.ExtraLazyPostRepository;
 import com.example.demo.model.HASHCODEANDEQUALS.Company;
 import com.example.demo.model.HASHCODEANDEQUALS.EAGER.Image;
 import com.example.demo.model.HASHCODEANDEQUALS.EAGER.ProductEager;
 import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.ManyToMany.Tag;
 import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToMany.Post;
+
 import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToMany.PostComment;
 import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToOne.PostDetails;
 import com.example.demo.model.naturalid.Product;
 import com.example.demo.model.onetomany.RoleR;
-import com.example.demo.model.onetomany.UserR;
 import com.example.demo.modelElementCollection.Customer;
 import com.example.demo.modelElementCollection.CustomerRepository;
 import com.example.demo.modelElementCollectionEmbeddable.CustomerOne;
@@ -166,6 +160,8 @@ public class DemoApplication implements CommandLineRunner {
 	PostRepository postRepository;
 	@Autowired
 	PostService postService;
+	@Autowired
+	ExtraLazyPostRepository extraLazyPostRepository; 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -383,7 +379,15 @@ public class DemoApplication implements CommandLineRunner {
 		 * System.out.println(":dfhshdahfas"); savedPost.removeComment(comment); }
 		 */
 		System.out.println(postService.getAllPosts());
-		 
+		com.example.demo.model.EXTRALAZYCOLLECTIONS.Post ost;
+		/*
+		 * extraLazyPostRepository.save( new Post().setId(1L) .setTitle(
+		 * "High-Performance Java Persistence" ) .addComment( new PostComment()
+		 * .setId(1L) .setReview( "Excellent book to understand Java persistence") )
+		 * .addComment( new PostComment() .setId(2L) .setReview(
+		 * "The best JPA ORM book out there" ) ) .addComment( new PostComment()
+		 * .setId(3L) .setReview( "Must-read for Java developers" ) ))
+		 */
 	}
 
 }
