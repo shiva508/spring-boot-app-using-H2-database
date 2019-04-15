@@ -8,6 +8,8 @@ import javax.persistence.Query;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -58,6 +60,8 @@ public class StudentCustumRepositoryImpl implements StudentCustumRepository {
 
 	@Override
 	public Long getMaxID() {
+		Session session=entityManager.unwrap(Session.class);
+	session.createCriteria(Student.class).setProjection(Projections.rowCount());
 		Long id = entityManager.createQuery("select Max(s.id) from Student s", Long.class).getSingleResult();
 		return id;
 	}

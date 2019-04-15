@@ -43,6 +43,8 @@ import com.example.demo.model.RoleJdbc;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.ENUM.Project;
+import com.example.demo.model.ENUM.ProjectStatus;
 import com.example.demo.model.EXTRALAZYCOLLECTIONS.ExtraLazyPostRepository;
 import com.example.demo.model.HASHCODEANDEQUALS.Company;
 import com.example.demo.model.HASHCODEANDEQUALS.EAGER.Image;
@@ -77,6 +79,7 @@ import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.EAGER.ProductEagerRepository;
 import com.example.demo.repository.SYNCHRONIZEBIDIRECTIONALENTITY.PostRepository;
 import com.example.demo.repository.naturalid.ProductRepository;
+import com.example.demo.service.ENUM.ProjectService;
 import com.example.demo.service.HASHCODEANDEQUALS.ProductEagerService;
 import com.example.demo.service.SYNCHRONIZEBIDIRECTIONALENTITY.PostService;
 import com.jfilter.EnableJsonFilter;
@@ -162,6 +165,8 @@ public class DemoApplication implements CommandLineRunner {
 	PostService postService;
 	@Autowired
 	ExtraLazyPostRepository extraLazyPostRepository; 
+	@Autowired
+	ProjectService projectService;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -388,6 +393,12 @@ public class DemoApplication implements CommandLineRunner {
 		 * "The best JPA ORM book out there" ) ) .addComment( new PostComment()
 		 * .setId(3L) .setReview( "Must-read for Java developers" ) ))
 		 */
+		
+		Project project=new Project();
+		project.setProjectName("DMI");
+		project.setProjectStatus(ProjectStatus.INPROGRESS);
+		
+		System.out.println(projectService.saveProject(project));
 	}
 
 }
