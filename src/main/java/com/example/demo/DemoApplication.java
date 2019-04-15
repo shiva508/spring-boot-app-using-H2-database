@@ -43,6 +43,10 @@ import com.example.demo.model.RoleJdbc;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.EMBEDDEDandEMBEDDABLE.Address;
+import com.example.demo.model.EMBEDDEDandEMBEDDABLE.UserName;
+import com.example.demo.model.EMBEDDEDandEMBEDDABLE.UserPhoneNumber;
+import com.example.demo.model.EMBEDDEDandEMBEDDABLE.UserProfile;
 import com.example.demo.model.ENUM.Project;
 import com.example.demo.model.ENUM.ProjectStatus;
 import com.example.demo.model.EXTRALAZYCOLLECTIONS.ExtraLazyPostRepository;
@@ -79,6 +83,7 @@ import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.EAGER.ProductEagerRepository;
 import com.example.demo.repository.SYNCHRONIZEBIDIRECTIONALENTITY.PostRepository;
 import com.example.demo.repository.naturalid.ProductRepository;
+import com.example.demo.service.EMBEDDEDandEMBEDDABLE.UserProfileService;
 import com.example.demo.service.ENUM.ProjectService;
 import com.example.demo.service.HASHCODEANDEQUALS.ProductEagerService;
 import com.example.demo.service.SYNCHRONIZEBIDIRECTIONALENTITY.PostService;
@@ -167,6 +172,8 @@ public class DemoApplication implements CommandLineRunner {
 	ExtraLazyPostRepository extraLazyPostRepository; 
 	@Autowired
 	ProjectService projectService;
+	@Autowired
+	UserProfileService userProfileService;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -399,6 +406,29 @@ public class DemoApplication implements CommandLineRunner {
 		project.setProjectStatus(ProjectStatus.INPROGRESS);
 		
 		System.out.println(projectService.saveProject(project));
+		Address address=new Address();
+		address.setAddressLine1("4-22");
+		address.setAddressLine2("Church Street");
+		address.setCity("Suryapet");
+		address.setCountry("India");
+		address.setState("Telangana");
+		address.setZipCode("508408");
+		
+		UserName userName=new UserName();
+		userName.setFirstName("Shiva");
+		userName.setLastName("Dasari");
+		
+		UserPhoneNumber userPhoneNumber=new UserPhoneNumber();
+		userPhoneNumber.setPrimaryPhoneNumber("9493366706");
+		userPhoneNumber.setHomePhoneNumber("8977875546");
+		UserProfile userProfile=new UserProfile();
+		userProfile.setEmail("dasarishiva1@gmail.com");
+		userProfile.setUserAddress(address);
+		userProfile.setUserName(userName);
+		userProfile.setUserPhoneNumber(userPhoneNumber);
+		
+		System.out.println(userProfileService.saveUserProfile(userProfile));
+		
 	}
 
 }
