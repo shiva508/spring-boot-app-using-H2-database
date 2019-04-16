@@ -36,6 +36,15 @@ public class StudentTABLE {
 	 */
 	//@GeneratedValue(strategy=GenerationType.TABLE,generator="stu_generator")
 	//@TableGenerator(name="stu_generator",schema="test",table="id_generator")
+	
+	/*
+	 * GenerationType.AUTO: Hibernate selects the generation strategy based on the
+	 * used dialect, GenerationType.IDENTITY: Hibernate relies on an
+	 * auto-incremented database column to generate the primary key,
+	 * GenerationType.SEQUENCE: Hibernate requests the primary key value from a
+	 * database sequence, GenerationType.TABLE: Hibernate uses a database table to
+	 * simulate a sequence.
+	 */
 	private Integer studentId;
 	private String firstName;
 	private String lastName;

@@ -49,6 +49,10 @@ import com.example.demo.model.EMBEDDEDandEMBEDDABLE.UserPhoneNumber;
 import com.example.demo.model.EMBEDDEDandEMBEDDABLE.UserProfile;
 import com.example.demo.model.ENUM.Project;
 import com.example.demo.model.ENUM.ProjectStatus;
+import com.example.demo.model.ENUM.ATTRIBUTECONVERTER.Caption;
+import com.example.demo.model.ENUM.ATTRIBUTECONVERTER.Gender;
+import com.example.demo.model.ENUM.ATTRIBUTECONVERTER.PersonENUM;
+import com.example.demo.model.ENUM.ATTRIBUTECONVERTER.Photo;
 import com.example.demo.model.EXTRALAZYCOLLECTIONS.ExtraLazyPostRepository;
 import com.example.demo.model.HASHCODEANDEQUALS.Company;
 import com.example.demo.model.HASHCODEANDEQUALS.EAGER.Image;
@@ -85,6 +89,8 @@ import com.example.demo.repository.SYNCHRONIZEBIDIRECTIONALENTITY.PostRepository
 import com.example.demo.repository.naturalid.ProductRepository;
 import com.example.demo.service.EMBEDDEDandEMBEDDABLE.UserProfileService;
 import com.example.demo.service.ENUM.ProjectService;
+import com.example.demo.service.ENUM.ATTRIBUTECONVERTER.PersonENUMService;
+import com.example.demo.service.ENUM.ATTRIBUTECONVERTER.PhotoService;
 import com.example.demo.service.HASHCODEANDEQUALS.ProductEagerService;
 import com.example.demo.service.SYNCHRONIZEBIDIRECTIONALENTITY.PostService;
 import com.jfilter.EnableJsonFilter;
@@ -174,6 +180,10 @@ public class DemoApplication implements CommandLineRunner {
 	ProjectService projectService;
 	@Autowired
 	UserProfileService userProfileService;
+	@Autowired
+	private PersonENUMService personENUMService;
+	@Autowired
+	private PhotoService photoService;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -428,6 +438,16 @@ public class DemoApplication implements CommandLineRunner {
 		userProfile.setUserPhoneNumber(userPhoneNumber);
 		
 		System.out.println(userProfileService.saveUserProfile(userProfile));
+		
+		PersonENUM personENUM=new PersonENUM();
+		personENUM.setGender(Gender.MALE);
+		personENUM.setName("Shiva");
+		System.out.println(personENUMService.savePersonENUM(personENUM));
+		Photo photo=new Photo();
+		photo.setName("shiva.png");
+		photo.setCaption(new Caption("Nicolae Grigorescu".toUpperCase()));
+		System.out.println(photoService.savePhoto(photo));
+		System.out.println(photoService.getPhotosByCaption("Nicolae Grigorescu"));
 		
 	}
 

@@ -18,5 +18,4 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfile saveUserProfile(UserProfile userProfile) {
 		return userProfileRepository.save(userProfile);
 	}
-
 }

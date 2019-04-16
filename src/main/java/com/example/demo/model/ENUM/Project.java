@@ -2,6 +2,7 @@ package com.example.demo.model.ENUM;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,8 @@ public class Project {
 	private Integer projectId;
 	@Column(name="PROJECT_NAME")
 	private String projectName;
-	@Enumerated
+	@Enumerated(EnumType.ORDINAL)
+	//@Enumerated(EnumType.STRING)
 	@Column(name="PROJECT_STATUS")
 	private ProjectStatus projectStatus;
 }
