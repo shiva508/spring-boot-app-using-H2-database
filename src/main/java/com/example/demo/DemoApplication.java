@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import java.io.BufferedReader;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +15,8 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +48,7 @@ import com.example.demo.model.RoleJdbc;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.CLOB.ProductCLOB;
 import com.example.demo.model.EMBEDDEDandEMBEDDABLE.Address;
 import com.example.demo.model.EMBEDDEDandEMBEDDABLE.UserName;
 import com.example.demo.model.EMBEDDEDandEMBEDDABLE.UserPhoneNumber;
@@ -83,6 +89,7 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserJdbcRepository;
 import com.example.demo.repository.UserRRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.CLOB.ProductCLOBRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.EAGER.ProductEagerRepository;
 import com.example.demo.repository.SYNCHRONIZEBIDIRECTIONALENTITY.PostRepository;
@@ -184,6 +191,8 @@ public class DemoApplication implements CommandLineRunner {
 	private PersonENUMService personENUMService;
 	@Autowired
 	private PhotoService photoService;
+	@Autowired
+	private ProductCLOBRepository productCLOBRepository;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -448,6 +457,140 @@ public class DemoApplication implements CommandLineRunner {
 		photo.setCaption(new Caption("Nicolae Grigorescu".toUpperCase()));
 		System.out.println(photoService.savePhoto(photo));
 		System.out.println(photoService.getPhotosByCaption("Nicolae Grigorescu"));
+		ProductCLOB productCLOB=new ProductCLOB(); 
+		productCLOB.setName("INFINITY");
+		productCLOB.setWarrenty(ClobProxy.generateProxy("An embedded database is useful during the development phase of a project because of its lightweight nature. Benefits include ease of configuration, quick startup time, testability, and the ability to rapidly evolve SQL during development.\n" + 
+				"\n" + 
+				"12.8.2 Creating an embedded database instance using Spring XML\n" + 
+				"If you want to expose an embedded database instance as a bean in a Spring ApplicationContext, use the embedded-database tag in the spring-jdbc namespace:\n" + 
+				"\n" + 
+				"    <jdbc:embedded-database id=\"dataSource\">\n" + 
+				"        <jdbc:script location=\"classpath:schema.sql\"/>\n" + 
+				"        <jdbc:script location=\"classpath:test-data.sql\"/>\n" + 
+				"    </jdbc:embedded-database>\n" + 
+				"The preceding configuration creates an embedded HSQL database populated with SQL from schema.sql and testdata.sql resources in the classpath. The database instance is made available to the Spring container as a bean of type javax.sql.DataSource. This bean can then be injected into data access objects as needed.\n" + 
+				"\n" + 
+				"12.8.3 Creating an embedded database instance programmatically\n" + 
+				"The EmbeddedDatabaseBuilder class provides a fluent API for constructing an embedded database programmatically. Use this when you need to create an embedded database instance in a standalone environment, such as a data access object unit test:\n" + 
+				"\n" + 
+				"    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();\n" + 
+				"    EmbeddedDatabase db = builder.setType(H2).addScript(\"my-schema.sql\").addScript(\"my-test-data.sql\").build();\n" + 
+				"    // do stuff against the db (EmbeddedDatabase extends javax.sql.DataSource)\n" + 
+				"    db.shutdown()\n" + 
+				"12.8.4 Extending the embedded database support\n" + 
+				"Spring JDBC embedded database support can be extended in two ways:\n" + 
+				"\n" + 
+				"Implement EmbeddedDatabaseConfigurer to support a new embedded database type, such as Apache Derby.\n" + 
+				"\n" + 
+				"Implement DataSourceFactory to support a new DataSource implementation, such as a connection pool, to manage embedded database connections.\n" + 
+				"\n" + 
+				"You are encouraged to contribute back extensions to the Spring community at jira.springframework.org.\n" + 
+				"\n" + 
+				"12.8.5 Using HSQL\n" + 
+				"Spring supports HSQL 1.8.0 and above. HSQL is the default embedded database if no type is specified explicitly. To specify HSQL explicitly, set the type attribute of the embedded-database tag to HSQL. If you are using the builder API, call the setType(EmbeddedDatabaseType) method with EmbeddedDatabaseType.HSQL.\n" + 
+				"\n" + 
+				"12.8.6 Using H2\n" + 
+				"Spring supports the H2 database as well. To enable H2, set the type attribute of the embedded-database tag to H2. If you are using the builder API, call the setType(EmbeddedDatabaseType) method with EmbeddedDatabaseType.H2.\n" + 
+				"\n" + 
+				"12.8.7 Using Derby\n" + 
+				"Spring also supports Apache Derby 10.5 and above. To enable Derby, set the type attribute of the embedded-database tag to Derby. If using the builder API, call the setType(EmbeddedDatabaseType) method with EmbeddedDatabaseType.Derby.\n" + 
+				"\n" + 
+				"12.8.8 Testing data access logic with an embedded database\n" + 
+				"Embedded databases provide a lightweight way to test data access code. The following is a data access unit test template that uses an embedded database:\n" + 
+				"\n" + 
+				"public class DataAccessUnitTestTemplate {\n" + 
+				"    private EmbeddedDatabase db;\n" + 
+				"    \n" + 
+				"    @Before\n" + 
+				"    public void setUp() {\n" + 
+				"        // creates a HSQL in-memory db populated from default scripts classpath:schema.sql and classpath:test-data.sql\n" + 
+				"        db = new EmbeddedDatabaseBuilder().addDefaultScripts().build();		\n" + 
+				"    }\n" + 
+				"\n" + 
+				"    @Test\n" + 
+				"    public void testDataAccess() {\n" + 
+				"        JdbcTemplate template = new JdbcTemplate(db);\n" + 
+				"        template.query(...);\n" + 
+				"    }\n" + 
+				"\n" + 
+				"    @After\n" + 
+				"    public void tearDown() {\n" + 
+				"        db.shutdown();\n" + 
+				"    }\n" + 
+				"}"));
+		productCLOB.setGaurenty("An embedded database is useful during the development phase of a project because of its lightweight nature. Benefits include ease of configuration, quick startup time, testability, and the ability to rapidly evolve SQL during development.\n" + 
+				"\n" + 
+				"12.8.2 Creating an embedded database instance using Spring XML\n" + 
+				"If you want to expose an embedded database instance as a bean in a Spring ApplicationContext, use the embedded-database tag in the spring-jdbc namespace:\n" + 
+				"\n" + 
+				"    <jdbc:embedded-database id=\"dataSource\">\n" + 
+				"        <jdbc:script location=\"classpath:schema.sql\"/>\n" + 
+				"        <jdbc:script location=\"classpath:test-data.sql\"/>\n" + 
+				"    </jdbc:embedded-database>\n" + 
+				"The preceding configuration creates an embedded HSQL database populated with SQL from schema.sql and testdata.sql resources in the classpath. The database instance is made available to the Spring container as a bean of type javax.sql.DataSource. This bean can then be injected into data access objects as needed.\n" + 
+				"\n" + 
+				"12.8.3 Creating an embedded database instance programmatically\n" + 
+				"The EmbeddedDatabaseBuilder class provides a fluent API for constructing an embedded database programmatically. Use this when you need to create an embedded database instance in a standalone environment, such as a data access object unit test:\n" + 
+				"\n" + 
+				"    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();\n" + 
+				"    EmbeddedDatabase db = builder.setType(H2).addScript(\"my-schema.sql\").addScript(\"my-test-data.sql\").build();\n" + 
+				"    // do stuff against the db (EmbeddedDatabase extends javax.sql.DataSource)\n" + 
+				"    db.shutdown()\n" + 
+				"12.8.4 Extending the embedded database support\n" + 
+				"Spring JDBC embedded database support can be extended in two ways:\n" + 
+				"\n" + 
+				"Implement EmbeddedDatabaseConfigurer to support a new embedded database type, such as Apache Derby.\n" + 
+				"\n" + 
+				"Implement DataSourceFactory to support a new DataSource implementation, such as a connection pool, to manage embedded database connections.\n" + 
+				"\n" + 
+				"You are encouraged to contribute back extensions to the Spring community at jira.springframework.org.\n" + 
+				"\n" + 
+				"12.8.5 Using HSQL\n" + 
+				"Spring supports HSQL 1.8.0 and above. HSQL is the default embedded database if no type is specified explicitly. To specify HSQL explicitly, set the type attribute of the embedded-database tag to HSQL. If you are using the builder API, call the setType(EmbeddedDatabaseType) method with EmbeddedDatabaseType.HSQL.\n" + 
+				"\n" + 
+				"12.8.6 Using H2\n" + 
+				"Spring supports the H2 database as well. To enable H2, set the type attribute of the embedded-database tag to H2. If you are using the builder API, call the setType(EmbeddedDatabaseType) method with EmbeddedDatabaseType.H2.\n" + 
+				"\n" + 
+				"12.8.7 Using Derby\n" + 
+				"Spring also supports Apache Derby 10.5 and above. To enable Derby, set the type attribute of the embedded-database tag to Derby. If using the builder API, call the setType(EmbeddedDatabaseType) method with EmbeddedDatabaseType.Derby.\n" + 
+				"\n" + 
+				"12.8.8 Testing data access logic with an embedded database\n" + 
+				"Embedded databases provide a lightweight way to test data access code. The following is a data access unit test template that uses an embedded database:\n" + 
+				"\n" + 
+				"public class DataAccessUnitTestTemplate {\n" + 
+				"    private EmbeddedDatabase db;\n" + 
+				"    \n" + 
+				"    @Before\n" + 
+				"    public void setUp() {\n" + 
+				"        // creates a HSQL in-memory db populated from default scripts classpath:schema.sql and classpath:test-data.sql\n" + 
+				"        db = new EmbeddedDatabaseBuilder().addDefaultScripts().build();		\n" + 
+				"    }\n" + 
+				"\n" + 
+				"    @Test\n" + 
+				"    public void testDataAccess() {\n" + 
+				"        JdbcTemplate template = new JdbcTemplate(db);\n" + 
+				"        template.query(...);\n" + 
+				"    }\n" + 
+				"\n" + 
+				"    @After\n" + 
+				"    public void tearDown() {\n" + 
+				"        db.shutdown();\n" + 
+				"    }\n" + 
+				"}");
+		System.out.println(productCLOBRepository.save(productCLOB));
+		System.out.println(productCLOBRepository.findAll());
+		Optional<ProductCLOB> clobs=productCLOBRepository.findById(new Integer(19));
+		if(clobs.isPresent()) {
+			ProductCLOB productCLOB2=clobs.get();
+			StringBuffer str = new StringBuffer();
+		    String strng;
+			Reader  reader=productCLOB2.getWarrenty().getCharacterStream();
+			BufferedReader bufferedReader=new BufferedReader(reader);
+			while ((strng=bufferedReader .readLine())!=null) {
+				 str.append(strng);
+			}      
+			System.out.println(str.toString());
+		}
 		
 	}
 
