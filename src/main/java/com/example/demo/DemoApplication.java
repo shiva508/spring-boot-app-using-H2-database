@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.sql.Date;
@@ -16,6 +18,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.hibernate.engine.jdbc.ClobProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +51,7 @@ import com.example.demo.model.RoleJdbc;
 import com.example.demo.model.Student;
 import com.example.demo.model.User;
 import com.example.demo.model.UserJdbc;
+import com.example.demo.model.BLOB.ProductBLOB;
 import com.example.demo.model.CLOB.ProductCLOB;
 import com.example.demo.model.EMBEDDEDandEMBEDDABLE.Address;
 import com.example.demo.model.EMBEDDEDandEMBEDDABLE.UserName;
@@ -89,6 +93,7 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserJdbcRepository;
 import com.example.demo.repository.UserRRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.BLOB.ProductBLOBRepository;
 import com.example.demo.repository.CLOB.ProductCLOBRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.EAGER.ProductEagerRepository;
@@ -193,6 +198,8 @@ public class DemoApplication implements CommandLineRunner {
 	private PhotoService photoService;
 	@Autowired
 	private ProductCLOBRepository productCLOBRepository;
+	@Autowired
+	private ProductBLOBRepository productBLOBRepository;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -586,12 +593,31 @@ public class DemoApplication implements CommandLineRunner {
 		    String strng;
 			Reader  reader=productCLOB2.getWarrenty().getCharacterStream();
 			BufferedReader bufferedReader=new BufferedReader(reader);
-			while ((strng=bufferedReader .readLine())!=null) {
+			while ((strng=bufferedReader.readLine())!=null) {
 				 str.append(strng);
 			}      
 			System.out.println(str.toString());
 		}
-		
+		ProductBLOB blob=new ProductBLOB();
+		byte[] image = new byte[] {1, 2, 3};
+		blob.setImage(BlobProxy.generateProxy(image));
+		blob.setImage1(image);
+		blob.setName("RAFFELOW");
+		System.out.println(productBLOBRepository.save(blob));
+		Optional<ProductBLOB> productBLOB=productBLOBRepository.findById(new Integer(20));
+		if (productBLOB.isPresent()) {
+		ProductBLOB productBLOB2=productBLOB.get();
+			InputStream stream=productBLOB2.getImage().getBinaryStream();
+			BufferedInputStream bufferedReader=new BufferedInputStream(stream);
+			int data;
+			StringBuffer str = new StringBuffer();
+			while ((bufferedReader.read())!=-1) {
+				str.append(bufferedReader.read());
+				
+			}
+			System.out.println(str);
+		}
+	
 	}
 
 }
