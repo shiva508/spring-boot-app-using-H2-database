@@ -72,6 +72,7 @@ import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToMany.Post;
 
 import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToMany.PostComment;
 import com.example.demo.model.SYNCHRONIZEBIDIRECTIONALENTITY.OneToOne.PostDetails;
+import com.example.demo.model.UUID.BookUUID;
 import com.example.demo.model.naturalid.Product;
 import com.example.demo.model.onetomany.RoleR;
 import com.example.demo.modelElementCollection.Customer;
@@ -98,6 +99,7 @@ import com.example.demo.repository.CLOB.ProductCLOBRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.CompanyRepository;
 import com.example.demo.repository.HASHCODEANDEQUALS.EAGER.ProductEagerRepository;
 import com.example.demo.repository.SYNCHRONIZEBIDIRECTIONALENTITY.PostRepository;
+import com.example.demo.repository.UUID.BookUUIDRepository;
 import com.example.demo.repository.naturalid.ProductRepository;
 import com.example.demo.service.EMBEDDEDandEMBEDDABLE.UserProfileService;
 import com.example.demo.service.ENUM.ProjectService;
@@ -200,6 +202,8 @@ public class DemoApplication implements CommandLineRunner {
 	private ProductCLOBRepository productCLOBRepository;
 	@Autowired
 	private ProductBLOBRepository productBLOBRepository;
+	@Autowired
+	private BookUUIDRepository bookUUIDRepository;
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
 		BinarySearchImpl searchImpl = applicationContext.getBean(BinarySearchImpl.class);
@@ -617,7 +621,10 @@ public class DemoApplication implements CommandLineRunner {
 			}
 			System.out.println(str);
 		}
-	
+		BookUUID bookUUID=new BookUUID();
+		bookUUID.setBookName("MONK WHO SOLD HIS FERRARI");
+		System.out.println(bookUUIDRepository.save(bookUUID));
+		
 	}
 
 }

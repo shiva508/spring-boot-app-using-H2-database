@@ -12,12 +12,14 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 public class BookUUID {
 	@Id
 	@GeneratedValue(generator = "UUID")
