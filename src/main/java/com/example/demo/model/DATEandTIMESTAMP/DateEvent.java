@@ -1,7 +1,9 @@
 package com.example.demo.model.DATEandTIMESTAMP;
 
-import java.sql.Date;
-import java.util.UUID;
+
+
+
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
